@@ -15,7 +15,8 @@
     </licenses>
 
     <modules>
-        <module>booty-duke-app-service</module>
+      <module>booty-duke-app-service</module>
+      <module>petstore-ee7</module>
     </modules>
 
     <build>

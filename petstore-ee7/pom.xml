@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.microsoft</groupId>
+  <artifactId>petstoreee7</artifactId>
+  <version>7.0</version>
+  <packaging>war</packaging>
+  <name>Petstore application using Java EE 7</name>
+
+  <licenses>
+      <license>
+          <name>MIT</name>
+      </license>
+  </licenses>
+  
+  <properties>
+    <!-- Java EE and App servers -->
+    <version.javaee>7.0</version.javaee>
+    <version.jboss-javaee>1.1.1.Final</version.jboss-javaee>
+    <version.wildfly>26.1.3.Final</version.wildfly>
+    <!-- UI (WebJar, Bootstrap, JQuery...) -->
+    <version.bootstrap>3.3.7-1</version.bootstrap>
+    <version.jquery>2.2.4</version.jquery>
+    <version.primefaces>6.1</version.primefaces>
+    <version.primefaces-themes>1.0.10</version.primefaces-themes>
+    <version.fontawesome>4.7.0</version.fontawesome>
+    <!-- Other -->
+    <version.swagger>1.6.9</version.swagger>
+    <version.log4j>2.19.0</version.log4j>
+    <!--Maven Plugins & co-->
+    <version.maven.wildfly.plugin>4.0.0.Final</version.maven.wildfly.plugin>
+    <version.maven.war.plugin>3.1.0</version.maven.war.plugin>
+    <version.maven.compiler.plugin>3.1</version.maven.compiler.plugin>
+    <version.maven.dependency.plugin>2.10</version.maven.dependency.plugin>
+    <skipITs>true</skipITs>
+    <version.maven.surefire.plugin>3.0.0-M8</version.maven.surefire.plugin>
+    <version.maven.failsafe.plugin>3.0.0-M8</version.maven.failsafe.plugin>
+    <version.swagger.plugin>3.1.8</version.swagger.plugin>
+    <!-- Project -->
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- App servers -->
+      <dependency>
+        <groupId>org.jboss.spec</groupId>
+        <artifactId>jboss-javaee-7.0</artifactId>
+        <version>${version.jboss-javaee}</version>
+        <type>pom</type>
+        <scope>provided</scope>
+      </dependency>
+      <!-- UI (WebJar, Bootstrap, JQuery...) -->
+      <dependency>
+        <groupId>org.webjars</groupId>
+        <artifactId>bootstrap</artifactId>
+        <version>${version.bootstrap}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.webjars</groupId>
+        <artifactId>jquery</artifactId>
+        <version>${version.jquery}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.primefaces</groupId>
+        <artifactId>primefaces</artifactId>
+        <version>${version.primefaces}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.primefaces.themes</groupId>
+        <artifactId>all-themes</artifactId>
+        <version>${version.primefaces-themes}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.webjars.bower</groupId>
+        <artifactId>fontawesome</artifactId>
+        <version>${version.fontawesome}</version>
+      </dependency>
+      <!-- Other -->
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${version.log4j}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${version.swagger}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>jquery</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.primefaces.themes</groupId>
+      <artifactId>all-themes</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars.bower</groupId>
+      <artifactId>fontawesome</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec</groupId>
+      <artifactId>jboss-javaee-7.0</artifactId>
+      <type>pom</type>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <parent>
+    <groupId>com.microsoft</groupId>
+    <artifactId>app-service-java-quickstart</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  
+  <build>
+    <finalName>applicationPetstore</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>${version.maven.wildfly.plugin}</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${version.maven.war.plugin}</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${version.maven.surefire.plugin}</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${version.maven.failsafe.plugin}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.kongchen</groupId>
+        <artifactId>swagger-maven-plugin</artifactId>
+        <version>${version.swagger.plugin}</version>
+        <configuration>
+          <apiSources>
+            <apiSource>
+              <springmvc>false</springmvc>
+              <locations>com.microsoft.application.petstore.rest</locations>
+              <schemes>http,https</schemes>
+              <host>localhost:8080</host>
+              <basePath>/applicationPetstore/rest</basePath>
+              <outputFormats>json</outputFormats>
+              <info>
+                <title>Petstore APIs</title>
+                <version>1.0.0</version>
+                <description>PetStore APIs exposed</description>
+                <contact>
+                  <email>antonio.goncalves@gmail.com</email>
+                  <name>Antonio Goncalves</name>
+                  <url>https://antoniogoncalves.org/</url>
+                </contact>
+              </info>
+              <swaggerDirectory>${basedir}/src/main/webapp</swaggerDirectory>
+              <attachSwaggerArtifact>true</attachSwaggerArtifact>
+            </apiSource>
+          </apiSources>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-hibernate-validations</artifactId>
+            <version>${version.swagger}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>primefaces</id>
+      <url>https://repository.primefaces.org/</url>
+    </repository>
+  </repositories>
+
+</project>
